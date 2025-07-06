@@ -16,20 +16,21 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:text="OTVORI"
-        app:layout_constraintBottom_toBottomOf="@+id/seekBar1"
+        app:layout_constraintBottom_toBottomOf="@+id/slider1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/seekBar1"
-        app:layout_constraintTop_toTopOf="@+id/seekBar1" />
+        app:layout_constraintStart_toEndOf="@+id/slider1"
+        app:layout_constraintTop_toTopOf="@+id/slider1" />
 
-    <SeekBar
-        android:id="@+id/seekBar1"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
+    <com.google.android.material.slider.Slider
+        android:id="@+id/slider1"
         android:layout_width="170dp"
         android:layout_height="50dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="50dp"
-        android:max="100"
-        android:min="0"
+        android:stepSize="10.0"
+        android:value="0.0"
+        android:valueFrom="0.0"
+        android:valueTo="100.0"
         app:layout_constraintStart_toEndOf="@+id/closeRollersBtn1"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,9 +40,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="ZATVORI"
-        app:layout_constraintBottom_toBottomOf="@+id/seekBar1"
+        app:layout_constraintBottom_toBottomOf="@+id/slider1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/seekBar1" />
+        app:layout_constraintTop_toTopOf="@+id/slider1" />
 
     <!-- Living room -->
 
@@ -52,10 +53,10 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:text="OTVORI"
-        app:layout_constraintBottom_toBottomOf="@+id/seekBar2"
+        app:layout_constraintBottom_toBottomOf="@+id/slider2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/seekBar2"
-        app:layout_constraintTop_toTopOf="@+id/seekBar2" />
+        app:layout_constraintStart_toEndOf="@+id/slider2"
+        app:layout_constraintTop_toTopOf="@+id/slider2" />
 
     <Button
         android:id="@+id/closeRollersBtn2"
@@ -63,21 +64,22 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="ZATVORI"
-        app:layout_constraintBottom_toBottomOf="@+id/seekBar2"
+        app:layout_constraintBottom_toBottomOf="@+id/slider2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/seekBar2" />
+        app:layout_constraintTop_toTopOf="@+id/slider2" />
 
-    <SeekBar
-        android:id="@+id/seekBar2"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
+    <com.google.android.material.slider.Slider
+        android:id="@+id/slider2"
         android:layout_width="170dp"
         android:layout_height="50dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="50dp"
-        android:max="100"
-        android:min="0"
+        android:valueFrom="0.0"
+        android:valueTo="100.0"
+        android:stepSize="10.0"
+        android:value="0.0"
         app:layout_constraintStart_toEndOf="@+id/closeRollersBtn2"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar1" />
+        app:layout_constraintTop_toBottomOf="@+id/slider1" />
 
     <!-- Bedroom -->
 
@@ -88,10 +90,10 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:text="OTVORI"
-        app:layout_constraintBottom_toBottomOf="@+id/seekBar3"
+        app:layout_constraintBottom_toBottomOf="@+id/slider3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/seekBar3"
-        app:layout_constraintTop_toTopOf="@+id/seekBar3" />
+        app:layout_constraintStart_toEndOf="@+id/slider3"
+        app:layout_constraintTop_toTopOf="@+id/slider3" />
 
     <Button
         android:id="@+id/closeRollersBtn3"
@@ -99,20 +101,21 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="ZATVORI"
-        app:layout_constraintBottom_toBottomOf="@+id/seekBar3"
+        app:layout_constraintBottom_toBottomOf="@+id/slider3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/seekBar3" />
+        app:layout_constraintTop_toTopOf="@+id/slider3" />
 
-    <SeekBar
-        android:id="@+id/seekBar3"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
+    <com.google.android.material.slider.Slider
+        android:id="@+id/slider3"
         android:layout_width="170dp"
         android:layout_height="50dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="50dp"
-        android:max="100"
-        android:min="0"
+        android:valueFrom="0.0"
+        android:valueTo="100.0"
+        android:stepSize="10.0"
+        android:value="0.0"
         app:layout_constraintStart_toEndOf="@+id/closeRollersBtn3"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar2" />
+        app:layout_constraintTop_toBottomOf="@+id/slider2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

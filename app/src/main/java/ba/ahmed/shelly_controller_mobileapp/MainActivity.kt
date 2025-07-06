@@ -3,7 +3,7 @@ package ba.ahmed.shelly_controller_mobileapp
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
-import android.widget.SeekBar
+import com.google.android.material.slider.Slider
 import androidx.activity.ComponentActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,15 +14,15 @@ class MainActivity : ComponentActivity() {
 
     private lateinit var openRollersButton1: Button
     private lateinit var closeRollersButton1: Button
-    private lateinit var seekBar1: SeekBar
+    private lateinit var slider1: Slider
 
     private lateinit var openRollersButton2: Button
     private lateinit var closeRollersButton2: Button
-    private lateinit var seekBar2: SeekBar
+    private lateinit var slider2: Slider
 
     private lateinit var openRollersButton3: Button
     private lateinit var closeRollersButton3: Button
-    private lateinit var seekBar3: SeekBar
+    private lateinit var slider3: Slider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,20 +32,23 @@ class MainActivity : ComponentActivity() {
 
         openRollersButton1 = findViewById(R.id.openRollersBtn1)
         closeRollersButton1 = findViewById(R.id.closeRollersBtn1)
-        seekBar1 = findViewById(R.id.seekBar1)
+        slider1 = findViewById(R.id.slider1)
 
-        seekBar1.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                // add functionalities for when progress is changed
-                controlRollers(2, "to_pos", progress)
+        slider1.addOnChangeListener { slider, value, fromUser ->
+            Log.d("SLIDER", "Slider 1 value changed to: ${value.toInt()}")
+        }
+
+        slider1.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: Slider) {
+                // Called when the user first touches the slider thumb
+                Log.d("SLIDER", "Slider 1 touch started")
             }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-                // add functionalities for when the user starts touching the seekbar
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                //  add functionalities for when the user stops touching the seekbar
+            override fun onStopTrackingTouch(slider: Slider) {
+                // Called when the user releases the slider thumb
+                val finalValue = slider.value.toInt()
+                controlRollers(2, "to_pos", finalValue)
+                Log.d("SLIDER", "Slider 1 touch stopped. Final value: $finalValue")
             }
         })
 
@@ -63,20 +66,23 @@ class MainActivity : ComponentActivity() {
 
         openRollersButton2 = findViewById(R.id.openRollersBtn2)
         closeRollersButton2 = findViewById(R.id.closeRollersBtn2)
-        seekBar2 = findViewById(R.id.seekBar2)
+        slider2 = findViewById(R.id.slider2)
 
-        seekBar2.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                // add functionalities for when progress is changed
-                controlRollers(3, "to_pos", progress)
+        slider2.addOnChangeListener { slider, value, fromUser ->
+            Log.d("SLIDER", "Slider 2 value changed to: ${value.toInt()}")
+        }
+
+        slider2.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: Slider) {
+                // Called when the user first touches the slider thumb
+                Log.d("SLIDER", "Slider 2 touch started")
             }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-                // add functionalities for when the user starts touching the seekbar
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                //  add functionalities for when the user stops touching the seekbar
+            override fun onStopTrackingTouch(slider: Slider) {
+                // Called when the user releases the slider thumb
+                val finalValue = slider.value.toInt()
+                controlRollers(3, "to_pos", finalValue)
+                Log.d("SLIDER", "Slider 2 touch stopped. Final value: $finalValue")
             }
         })
 
@@ -94,20 +100,23 @@ class MainActivity : ComponentActivity() {
 
         openRollersButton3 = findViewById(R.id.openRollersBtn3)
         closeRollersButton3 = findViewById(R.id.closeRollersBtn3)
-        seekBar3 = findViewById(R.id.seekBar3)
+        slider3 = findViewById(R.id.slider3)
 
-        seekBar3.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                // add functionalities for when progress is changed
-                controlRollers(4, "to_pos", progress)
+        slider3.addOnChangeListener { slider, value, fromUser ->
+            Log.d("SLIDER", "Slider 3 value changed to: ${value.toInt()}")
+        }
+
+        slider3.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: Slider) {
+                // Called when the user first touches the slider thumb
+                Log.d("SLIDER", "Slider 3 touch started")
             }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-                // add functionalities for when the user starts touching the seekbar
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                //  add functionalities for when the user stops touching the seekbar
+            override fun onStopTrackingTouch(slider: Slider) {
+                // Called when the user releases the slider thumb
+                val finalValue = slider.value.toInt()
+                controlRollers(4, "to_pos", finalValue)
+                Log.d("SLIDER", "Slider 3 touch stopped. Final value: $finalValue")
             }
         })
 
@@ -121,11 +130,41 @@ class MainActivity : ComponentActivity() {
             controlRollers(4, "to_pos", 0)
         }
 
+        initializeSliderValues()
+
+    }
+
+    private fun initializeSliderValues() {
+        CoroutineScope(Dispatchers.Main).launch {
+            val value1 = shellyDAO.getCurrentPos(2)
+            if (value1 != -1) {
+                slider1.value = (Math.round(value1.toDouble() / 10) * 10).toFloat()
+                Log.d("INITIALIZE", "Slider for roller 1 initialized to: $value1")
+            }
+
+            val value2 = shellyDAO.getCurrentPos(3)
+            if (value2 != -1) {
+                slider2.value = (Math.round(value2.toDouble() / 10) * 10).toFloat()
+                Log.d("INITIALIZE", "Slider for roller 2 initialized to: $value2")
+            }
+
+            val value3 = shellyDAO.getCurrentPos(4)
+            if (value3 != -1) {
+                slider3.value = (Math.round(value3.toDouble() / 10) * 10).toFloat()
+                Log.d("INITIALIZE", "Slider for roller 3 initialized to: $value3")
+            }
+        }
     }
 
      private fun controlRollers(host: Int, go: String, rollerPos: Int) {
          CoroutineScope(Dispatchers.Main).launch {
              val result = shellyDAO.controlRollers(host, go, rollerPos)
+             if (host == 2)
+                 slider1.value = rollerPos.toFloat()
+             if (host == 3)
+                 slider2.value = rollerPos.toFloat()
+             if (host == 4)
+                 slider3.value = rollerPos.toFloat()
              Log.d("CONTROL", "Control rollers ${host-1} result: $result")
          }
     }
