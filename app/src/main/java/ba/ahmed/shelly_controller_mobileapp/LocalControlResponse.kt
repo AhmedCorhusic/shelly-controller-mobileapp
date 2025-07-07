@@ -2,7 +2,7 @@ package ba.ahmed.shelly_controller_mobileapp
 
 import com.google.gson.annotations.SerializedName
 
-data class ShellyControlResponse(
+data class LocalControlResponse(
     @SerializedName("state") val state: String,
     @SerializedName("source") val source: String,
     @SerializedName("power") val power: Double,

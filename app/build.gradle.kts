@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -20,6 +22,40 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        //load the values from .properties file
+        val keystoreFile = project.rootProject.file(".properties")
+        val properties = Properties()
+        properties.load(keystoreFile.inputStream())
+
+        //return empty key in case something goes wrong
+        val cloadApiKey = properties.getProperty("CLOUD_API_KEY") ?: ""
+        buildConfigField(
+            type = "String",
+            name = "CLOUD_API_KEY",
+            value = cloadApiKey
+        )
+
+        val host1ID = properties.getProperty("ID_HOST1") ?: ""
+        buildConfigField(
+            type = "String",
+            name = "ID_HOST1",
+            value = host1ID
+        )
+
+        val host2ID = properties.getProperty("ID_HOST2") ?: ""
+        buildConfigField(
+            type = "String",
+            name = "ID_HOST2",
+            value = host2ID
+        )
+
+        val host3ID = properties.getProperty("ID_HOST3") ?: ""
+        buildConfigField(
+            type = "String",
+            name = "ID_HOST3",
+            value = host3ID
+        )
     }
 
     buildTypes {

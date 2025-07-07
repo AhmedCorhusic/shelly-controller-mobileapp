@@ -3,7 +3,7 @@ package ba.ahmed.shelly_controller_mobileapp
 import com.google.gson.annotations.SerializedName
 import org.json.JSONObject
 
-data class ShellyGetStatusResponse(
+data class LocalStatusResponse(
     @SerializedName("id") val id: Int,
     @SerializedName("source") val source: String,
     @SerializedName("state") val state: String,

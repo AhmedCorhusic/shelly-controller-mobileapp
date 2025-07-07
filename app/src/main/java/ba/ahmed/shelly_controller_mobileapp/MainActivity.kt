@@ -5,12 +5,12 @@ import android.util.Log
 import android.widget.Button
 import com.google.android.material.slider.Slider
 import androidx.activity.ComponentActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class MainActivity : ComponentActivity() {
     private val shellyDAO = ShellyDAO()
+
+    private var isAvailableLocally = true
 
     private lateinit var openRollersButton1: Button
     private lateinit var closeRollersButton1: Button
@@ -136,29 +136,66 @@ class MainActivity : ComponentActivity() {
 
     private fun initializeSliderValues() {
         CoroutineScope(Dispatchers.Main).launch {
-            val value1 = shellyDAO.getCurrentPos(2)
+            var value1 = shellyDAO.getLocalCurrentPos(2)
             if (value1 != -1) {
-                slider1.value = (Math.round(value1.toDouble() / 10) * 10).toFloat()
-                Log.d("INITIALIZE", "Slider for roller 1 initialized to: $value1")
+                // Device is available on a local network -> use Local API
+                isAvailableLocally = true
+            }
+            else {
+                // Device is not available on a local network -> use Cloud API
+                value1 = shellyDAO.getCloudCurrentPos(2)
+                delay(1000L)
             }
 
-            val value2 = shellyDAO.getCurrentPos(3)
-            if (value2 != -1) {
-                slider2.value = (Math.round(value2.toDouble() / 10) * 10).toFloat()
-                Log.d("INITIALIZE", "Slider for roller 2 initialized to: $value2")
+            slider1.value = (Math.round(value1.toDouble() / 10) * 10).toFloat()
+            Log.d("INITIALIZE", "Slider for roller 1 initialized to: $value1")
+
+            val value2: Int
+            if (isAvailableLocally) {
+                // Device is available on a local network -> use Local API
+                value2 = shellyDAO.getLocalCurrentPos(3)
+            }
+            else {
+                // Device is not available on a local network -> use Cloud API
+                value2 = shellyDAO.getCloudCurrentPos(3)
+                delay(1000L)
             }
 
-            val value3 = shellyDAO.getCurrentPos(4)
-            if (value3 != -1) {
-                slider3.value = (Math.round(value3.toDouble() / 10) * 10).toFloat()
-                Log.d("INITIALIZE", "Slider for roller 3 initialized to: $value3")
+            slider2.value = (Math.round(value2.toDouble() / 10) * 10).toFloat()
+            Log.d("INITIALIZE", "Slider for roller 2 initialized to: $value2")
+
+            val value3: Int
+            if (isAvailableLocally) {
+                // Device is available on a local network -> use Local API
+                value3 = shellyDAO.getLocalCurrentPos(4)
             }
+            else {
+                // Device is not available on a local network -> use Cloud API
+                value3 = shellyDAO.getCloudCurrentPos(4)
+                delay(1000L)
+            }
+
+            slider3.value = (Math.round(value3.toDouble() / 10) * 10).toFloat()
+            Log.d("INITIALIZE", "Slider for roller 3 initialized to: $value3")
         }
     }
 
      private fun controlRollers(host: Int, go: String, rollerPos: Int) {
          CoroutineScope(Dispatchers.Main).launch {
-             val result = shellyDAO.controlRollers(host, go, rollerPos)
+             var result = ""
+             if (isAvailableLocally) {
+                 // Device is available on a local network -> use Local API
+                 result = shellyDAO.controlLocalRollers(host, go, rollerPos)
+                 if (result.contains("FAILED"))
+                     isAvailableLocally = false
+             }
+
+             if (!isAvailableLocally) {
+                 // Device is not available on a local network -> use Cloud API
+                 result = shellyDAO.controlCloudRollers(host, go, rollerPos)
+                 delay(1000L)
+             }
+
              if (host == 2)
                  slider1.value = rollerPos.toFloat()
              if (host == 3)
