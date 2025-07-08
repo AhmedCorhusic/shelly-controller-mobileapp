@@ -137,12 +137,9 @@ class MainActivity : ComponentActivity() {
     private fun initializeSliderValues() {
         CoroutineScope(Dispatchers.Main).launch {
             var value1 = shellyDAO.getLocalCurrentPos(2)
-            if (value1 != -1) {
-                // Device is available on a local network -> use Local API
-                isAvailableLocally = true
-            }
-            else {
+            if (value1 == -1) {
                 // Device is not available on a local network -> use Cloud API
+                isAvailableLocally = false
                 value1 = shellyDAO.getCloudCurrentPos(2)
                 delay(1000L)
             }
@@ -180,7 +177,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-     private fun controlRollers(host: Int, go: String, rollerPos: Int) {
+    private fun controlRollers(host: Int, go: String, rollerPos: Int) {
          CoroutineScope(Dispatchers.Main).launch {
              var result = ""
              if (isAvailableLocally) {
